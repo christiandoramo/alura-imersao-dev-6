@@ -1,0 +1,27 @@
+<%- include("partials/header") %>
+    <body>
+        <h1>Dia 1</h1>
+        <p>Conversor de Moedas</p>
+        <form action="/processar" method="GET">
+            <label for="valorEmReal">Valor Em Real</label>
+            <input type="text" name="valorEmReal" id="valorEmReal"><BR></BR>
+            <label for="moeda">Moeda para ser convertido</label>
+            <label for="DolarAmericano">Dólar Americano</label>
+            <input checked type="radio" name="moeda" id="DolarAmericano" value="DolarAmericano">
+            <label for="Euro">Euro</label>
+            <input type="radio" name="moeda" id="Euro" value="Euro">
+            <label for="Bitcoin">Bitcoin</label>
+            <input type="radio" name="moeda" id="Bitcoin" value="Bitcoin">
+            <button>Converter</button>
+        </form
+            <p>R$ <%= valorEmReal %></p>
+            <p>Moeda: <%= moeda %></p>
+            <% if(moeda=="Euro") { %>
+                <p>€ <%= valorConvertido %></p>
+            <% }else if(moeda=="DolarAmericano"){ %>
+                <p>U$ <%= valorConvertido %></p>
+            <% } else if(moeda=="Bitcoin") { %>
+                <p>₿ <%= valorConvertido %></p>
+            <% } %>
+<%- include("partials/footer") %>
+</body>
