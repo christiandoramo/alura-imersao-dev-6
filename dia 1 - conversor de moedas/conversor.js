@@ -2,8 +2,8 @@ const request = require("request"); //importação da lib para requisição das 
 
 const moedas = "USD-BRL,EUR-BRL,BTC-BRL";
 
-let cotacaoAtual;
-let dataCotação;
+let cotacaoSelecionada;
+let dataCotacao;
 
 const options = {
   url: `https://economia.awesomeapi.com.br/json/last/${moedas}`,
@@ -14,30 +14,41 @@ const options = {
   },
 };
 
-const callback_USD = function (erro, resposta, body) {
+function atualizarDataECotacao(ctc, dt) {
+  cotacaoSelecionada = ctc;
+  dataCotacao = dt;
+}
+
+function atualizaUSD(erro, resposta, body) {
   let json = JSON.parse(body);
   let cotacao = json.USDBRL["bid"];
   let data = json.USDBRL["create_date"];
-  cotacaoAtual = cotacao;
-  dataCotação = data;
-};
+  atualizarDataECotacao(cotacao, data);
+}
 
-const callback_EUR = function (erro, resposta, body) {
+function atualizaEUR(erro, resposta, body) {
   let json = JSON.parse(body);
   let cotacao = json.EURBRL["bid"];
   let data = json.EURBRL["create_date"];
-  cotacaoAtual = cotacao;
-  dataCotação = data;
-};
-const callback_BTC = function (erro, resposta, body) {
+  atualizarDataECotacao(cotacao, data);
+}
+function atualizaBTC(erro, resposta, body) {
   let json = JSON.parse(body);
   let cotacao = json.BTCBRL["bid"];
   let data = json.BTCBRL["create_date"];
-  cotacaoAtual = cotacao;
-  dataCotação = data;
-};
+  atualizarDataECotacao(cotacao, data);
+}
 
-function conversao(moeda, valorEmReal) {
+const callback_EUR = atualizaEUR;
+const callback_BTC = atualizaBTC;
+const callback_USD = atualizaUSD;
+
+// valores já iniciados para corrigir bug
+request(options, callback_USD);
+request(options, callback_EUR);
+request(options, callback_BTC);
+
+function selecaoCotacao(moeda) {
   if (moeda == "DolarAmericano") {
     request(options, callback_USD);
   } else if (moeda == "Euro") {
@@ -45,7 +56,20 @@ function conversao(moeda, valorEmReal) {
   } else if (moeda == "Bitcoin") {
     request(options, callback_BTC);
   }
-  return valorEmReal / cotacaoAtual;
 }
 
-module.exports = { conversao, cotacaoAtual, dataCotação };
+function conversao(moeda, valorEmReal) {
+  selecaoCotacao(moeda);
+  return valorEmReal / cotacaoSelecionada;
+}
+
+function dataAtual(moeda) {
+  selecaoCotacao(moeda);
+  return dataCotacao;
+}
+
+function cotacaoAtual(moeda) {
+  selecaoCotacao(moeda);
+  return cotacaoSelecionada;
+}
+module.exports = { conversao, cotacaoAtual, dataAtual };

@@ -2,7 +2,8 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
-const cotacao = require("./dia 1 - conversor de moedas/conversor"); //rodando cotação
+const conversor = require("./dia 1 - conversor de moedas/conversor"); //rodando cotação
+const mentalista = require("./dia 2 - mentalista/mentalista"); //rodando cotação
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
@@ -13,25 +14,26 @@ app.get("/", (requisicao, resposta) => {
   resposta.render("index");
 });
 
+// DIA 1 - CONVERSOR
 app.get("/converter", (requisicao, resposta) => {
-  resposta.render("dia_1-1");
-});
-
-app.get("/processar", (requisicao, resposta) => {
   const valorEmReal = requisicao.query.valorEmReal;
   const moeda = requisicao.query.moeda;
-  // resposta.end(
-  //   "moeda: " +
-  //     moeda +
-  //     " valor: " +
-  //     valorEmReal +
-  //     " valor convertido: " +
-  //     valorConvertido
-  // );
-  resposta.render("dia_1-2", {
+  const novoValor = conversor.conversao(moeda, valorEmReal);
+  resposta.render("dia_1", {
     moeda: moeda,
     valorEmReal: valorEmReal,
-    valorConvertido: cotacao.conversao(moeda, valorEmReal),
+    valorConvertido: novoValor,
+  });
+});
+
+// DIA 2 - MENTALISTA
+app.get("/advinhar", (requisicao, resposta) => {
+  const valorDigitado = requisicao.query.valorDigitado;
+  const maiorOuMenor = mentalista.advinhar(valorDigitado);
+  resposta.render("dia_2", {
+    valorDigitado: valorDigitado,
+    valorPrevio: mentalista.valorPrevio,
+    maiorOuMenor: maiorOuMenor,
   });
 });
 
