@@ -18,11 +18,9 @@ app.get("/", (requisicao, resposta) => {
 app.get("/converter", (requisicao, resposta) => {
   const valorEmReal = requisicao.query.valorEmReal;
   const moeda = requisicao.query.moeda;
-  const novoValor = conversor.conversao(moeda, valorEmReal);
+  const pesquisa = conversor.pesquisar(moeda, valorEmReal);
   resposta.render("dia_1", {
-    moeda: moeda,
-    valorEmReal: valorEmReal,
-    valorConvertido: novoValor,
+    pesquisa: pesquisa,
   });
 });
 

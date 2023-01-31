@@ -2,8 +2,12 @@ const request = require("request"); //importação da lib para requisição das 
 
 const moedas = "USD-BRL,EUR-BRL,BTC-BRL";
 
-let cotacaoSelecionada;
-let dataCotacao;
+let dataCotacaoUSD;
+let dataCotacaoEUR;
+let dataCotacaoBTC;
+let cotacaoUSD;
+let cotacaoEUR;
+let cotacaoBTC;
 
 const options = {
   url: `https://economia.awesomeapi.com.br/json/last/${moedas}`,
@@ -14,62 +18,61 @@ const options = {
   },
 };
 
-function atualizarDataECotacao(ctc, dt) {
-  cotacaoSelecionada = ctc;
-  dataCotacao = dt;
-}
-
-function atualizaUSD(erro, resposta, body) {
+function callback_USD(erro, resposta, body) {
   let json = JSON.parse(body);
-  let cotacao = json.USDBRL["bid"];
-  let data = json.USDBRL["create_date"];
-  atualizarDataECotacao(cotacao, data);
+  cotacaoUSD = json.USDBRL["bid"];
+  dataCotacaoUSD = json.USDBRL["create_date"];
 }
 
-function atualizaEUR(erro, resposta, body) {
+function callback_EUR(erro, resposta, body) {
   let json = JSON.parse(body);
-  let cotacao = json.EURBRL["bid"];
-  let data = json.EURBRL["create_date"];
-  atualizarDataECotacao(cotacao, data);
+  cotacaoEUR = json.EURBRL["bid"];
+  dataCotacaoEUR = json.EURBRL["create_date"];
 }
-function atualizaBTC(erro, resposta, body) {
+function callback_BTC(erro, resposta, body) {
   let json = JSON.parse(body);
-  let cotacao = json.BTCBRL["bid"];
-  let data = json.BTCBRL["create_date"];
-  atualizarDataECotacao(cotacao, data);
+  cotacaoBTC = json.BTCBRL["bid"];
+  dataCotacaoBTC = json.BTCBRL["create_date"];
+  console.log(json.BTCBRL);
 }
+function atualizar() {
+  request(options, callback_USD);
+  request(options, callback_EUR);
+  request(options, callback_BTC);
+}
+atualizar();
 
-const callback_EUR = atualizaEUR;
-const callback_BTC = atualizaBTC;
-const callback_USD = atualizaUSD;
-
-// valores já iniciados para corrigir bug
-request(options, callback_USD);
-request(options, callback_EUR);
-request(options, callback_BTC);
-
-function selecaoCotacao(moeda) {
+function pesquisar(moeda, valorEmReal) {
+  atualizar();
+  let resultado;
   if (moeda == "DolarAmericano") {
-    request(options, callback_USD);
+    resultado = {
+      valorEmReal: valorEmReal,
+      cotacao: cotacaoUSD,
+      data: dataCotacaoUSD,
+      convertido: "U$ " + valorEmReal / cotacaoUSD,
+      moeda: "Dólar Americano",
+    };
+    return resultado;
   } else if (moeda == "Euro") {
-    request(options, callback_EUR);
+    resultado = {
+      valorEmReal: valorEmReal,
+      cotacao: cotacaoEUR,
+      data: dataCotacaoEUR,
+      convertido: "€ " + valorEmReal / cotacaoEUR,
+      moeda: "Euro",
+    };
+    return resultado;
   } else if (moeda == "Bitcoin") {
-    request(options, callback_BTC);
+    resultado = {
+      moeda: "Bitcoin",
+      valorEmReal: valorEmReal,
+      cotacao: cotacaoBTC,
+      data: dataCotacaoBTC,
+      convertido: "₿ " + valorEmReal / cotacaoBTC,
+    };
+    return resultado;
   }
+  return undefined;
 }
-
-function conversao(moeda, valorEmReal) {
-  selecaoCotacao(moeda);
-  return valorEmReal / cotacaoSelecionada;
-}
-
-function dataAtual(moeda) {
-  selecaoCotacao(moeda);
-  return dataCotacao;
-}
-
-function cotacaoAtual(moeda) {
-  selecaoCotacao(moeda);
-  return cotacaoSelecionada;
-}
-module.exports = { conversao, cotacaoAtual, dataAtual };
+module.exports = { pesquisar };

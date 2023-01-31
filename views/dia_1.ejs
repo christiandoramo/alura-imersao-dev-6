@@ -15,21 +15,19 @@
             <label for="valorEmReal">Valor Em Real</label>
             <input type="text" name="valorEmReal" id="valorEmReal">
             <label for="moeda">Moeda para ser convertido</label>
-            <select name="moeda" id=""moeda>
+            <select name="moeda" id="moeda" >
                 <option value="DolarAmericano">Dolar Americano</option>
                 <option value="Euro">Euro</option>
                 <option value="Bitcoin">Bitcoin</option>
             </select>
             <button>Converter</button>
         </form>
-            <p>R$ <%= valorEmReal %></p>
-            <p>Moeda: <%= moeda %></p>
-            <% if(moeda=="Euro") { %>
-                <p>€ <%= valorConvertido %></p>
-            <% }else if(moeda=="DolarAmericano"){ %>
-                <p>U$ <%= valorConvertido %></p>
-            <% } else if(moeda=="Bitcoin") { %>
-                <p>₿ <%= valorConvertido %></p>
-            <% } %>
+        <% if(pesquisa!=undefined){ %>
+            <p>Valor em Real: R$ <%= pesquisa.valorEmReal %> </p>
+            <p>Moeda pesquisada: <%= pesquisa.moeda %> </p>
+            <p>Cotação Atual: <%= pesquisa.cotacao %> </p>
+            <p>Data de Atualização: <%= pesquisa.data %>  </p>
+            <p>Valor Convertido: <%= pesquisa.convertido %></p>
+        <% } %> </p>
 <%- include("partials/footer") %>
 </body>
