@@ -1,0 +1,19 @@
+<%- include("partials/header") %>
+<link rel="stylesheet" href="/css/estilo3.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1 class="page-title">
+      Dia 3 - Aluraflix
+    </h1>
+    <img src="https://www.alura.com.br/assets/img/imersoes/dev-2021/logo-imersao-aluraflix.svg" class="page-logo" alt="">
+  </div>
+  <a class="link-dias" href="https://alura.com.br/" target="_blank">
+    <img src="https://www.alura.com.br/assets/img/home/alura-logo.svg" alt="" class="alura-logo">
+  </a>
+  <%  filmes.forEach(filme => { %>
+  <img src="<%= filme %>" alt="filme x">
+  <% }) %>
+</body>
+<%- include("partials/footer") %>

@@ -1,24 +1,26 @@
 <%- include("partials/header") %>
-<link rel="stylesheet" href="css/estilo2.css">
-    <body>
-        <div class="container">
-            <h1 class="page-title">
-              dIA 2 - Mentalista
-            </h1>
-            <img src="https://www.alura.com.br/assets/img/imersoes/dev-2021/logo-imersao-aluraflix.svg" class="page-logo" alt="">
-          </div>
-          <a href="https://alura.com.br/" target="_blank">
-            <img src="https://www.alura.com.br/assets/img/home/alura-logo.svg" alt="" class="alura-logo">
-            <img src="https://caelum-online-public.s3.amazonaws.com/assets-imersaodev/Ilustra%C3%A7%C3%A3o-c%C3%A9rebro+1.png">
-          </a>
-          <form action="/advinhar" method="GET">
-            <label for="valorDigitadi">Advinhe o valor</label>
-            <input type="number" name="valorDigitado" id="valorDigitado">
-            <button>Advinhar</button>
-        </form>
-            <p>( <%= valorDigitado %> ) - O valor imaginário é <%= maiorOuMenor %></p>
-            <% if(valorDigitado==valorPrevio) { %>
-                <p><strong>Parabéns você acertou</strong></p>
-            <% } %>
+<link rel="stylesheet" href="/css/estilo1.css">
+<link rel="stylesheet" href="/css/estilo2.css">
+</head>
+<body>
+  <div class="container">
+    <h1 class="page-title">
+      Dia 2 - Mentalista
+    </h1>
+    <img src="https://www.alura.com.br/assets/img/imersoes/dev-2021/logo-imersao-aluraflix.svg" class="page-logo" alt="">
+  </div>
+  <a href="https://alura.com.br/" target="_blank">
+    <img src="https://www.alura.com.br/assets/img/home/alura-logo.svg" alt="" class="alura-logo">
+    <img src="https://caelum-online-public.s3.amazonaws.com/assets-imersaodev/Ilustra%C3%A7%C3%A3o-c%C3%A9rebro+1.png">
+  </a>
+  <form action="/advinhar" method="GET">
+    <label for="valorDigitadi">Advinhe o valor</label>
+    <input type="number" name="valorDigitado" id="valorDigitado">
+    <button>Advinhar</button>
+  </form>
+  <p>( <%= valorDigitado %> ) - O valor imaginário é <%= maiorOuMenor %></p>
+  <% if(valorDigitado==valorPrevio) { %>
+  <p><strong>Parabéns você acertou</strong></p>
+  <% } %>
+  </body>
 <%- include("partials/footer") %>
-</body>
