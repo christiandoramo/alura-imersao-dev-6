@@ -42,5 +42,9 @@ app.get('/aluraflix', (req, res) => {
     filmes: aluraflix.filmes,
   })
 })
+// DIA 4 - FILMES PREFERIDOS
+app.get('/filmespreferidos', (req, res) => {
+  res.render('dia_4')
+})
 
 app.listen(2023, () => console.log('Conexão efetuada com sucesso!!!'))
