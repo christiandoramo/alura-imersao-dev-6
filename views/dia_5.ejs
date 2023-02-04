@@ -1,0 +1,43 @@
+<%- include("partials/header") %>
+<link rel="stylesheet" href="/css/estilo5.css">
+</head>
+
+<body>
+  <h1>Classificação Alura</h1>
+  <table style="width:90%; margin: 50px auto">
+    <thead>
+      <tr>
+        <th>Jogador</th>
+        <th>Vitórias</th>
+        <th>Empates</th>
+        <th>Derrotas</th>
+        <th>Pontos</th>
+        <th colspan="3">Ações</th>
+      </tr>
+    </thead>
+    <tbody id="tabelaJogadores">
+      <% jogadores.forEach(jogador => { %>
+      <tr>
+        <td><%= jogador.nome %></td>
+        <td><%= jogador.vitoria %></td>
+        <td><%= jogador.empate %></td>
+        <td><%= jogador.derrota %></td>
+        <td><%= jogador.pontos %></td>
+        <form action="/tabeladepontos" method="GET">
+          <input type="text" name="jogadorNome" value="<%= jogador.nome %>" hidden>
+          <td>
+            <button name="rodada" value="vitoria">Vitória</button>
+          </td>
+          <td>
+            <button name="rodada" value="empate">Empate</button>
+          </td>
+          <td>
+            <button name="rodada" value="derrota">Derrota</button>
+          </td>
+        </form>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</body>
+<%- include("partials/footer") %>

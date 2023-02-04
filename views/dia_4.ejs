@@ -12,24 +12,25 @@
       Qual seu filme favorito?
     </p>
     <div class="form-wrapper">
-      <input type="text" id="filme" name="filme" placeholder="Insira endereço de imagem">
-      <button onClick="adicionarFilme()">Adicionar Filme</button>
+      <form action="/filmespreferidos" method="GET">
+        <label for="filme">Adicione um filme</label>
+        <input  placeholder="Insira endereço de imagem" type="text" name="filme" id="filme">
+        <button class="adicionar">Adicionar Filme</button>
+      </form>
     </div>
   </div>
-  <div id="listaFilmes"></div>
+
+  <div id="listaFilmes">
+    <% if(filmes!=undefined){ %>
+      <% filmes.forEach( filme => { %>
+        <img src="<%= filme %>">
+      <% }) %>
+    <% } %>
+  </div>
+
   <a href="https://alura.com.br/" target="_blank">
     <img src="https://www.alura.com.br/assets/img/home/alura-logo.svg" alt="" class="alura-logo">
   </a>
 
-  <form action="/filmespreferidos" method="GET">
-    <label for="link">Adicione um filme</label>
-    <input placeholder="insira o link da imagem do filme" type="text" name="link" id="link">
-    <button>Adicionar</button>
-  </form>
-  
-  <% if(images!=undefined){ %>
-    <% images.forEach( image => { %>
-      <img src="<%= image %>">
-  <% })} %> </p>
 </body>
 <%- include("partials/footer") %>
